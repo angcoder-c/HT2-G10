@@ -1,5 +1,7 @@
 package com.api;
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class Main {
     public static String FilePath (String[] args) {
@@ -82,25 +84,29 @@ public class Main {
             return;
         }
 
-        String content = readline(filePath);
-        if (content == null) {
-            System.out.println("Error reading file.");
-            return;
-        }
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            int operationNumber = 1;
 
-        Postfix<String> postfix = new Postfix<>();
-        String[] tokens = content.split("\\s+");
+            while ((line = br.readLine()) != null) {
+                Postfix<String> postfix = new Postfix<>();
+                String[] tokens = line.split("\\s+");
 
-        for (String token : tokens) {
-            if (isNumeric(token)) {
-                addNumber(postfix, token);
-            } else {
-                addOperator(postfix, token);
+                for (String token : tokens) {
+                    if (isNumeric(token)) {
+                        addNumber(postfix, token);
+                    } else {
+                        addOperator(postfix, token);
+                    }
+                }
+
+                double result = evaluatePostfix(postfix);
+                System.out.println("Operation " + operationNumber + ": " + result);
+                operationNumber++;
             }
+        } catch (IOException e) {
+            System.out.println("Error reading file.");
         }
-
-        double result = evaluatePostfix(postfix);
-        System.out.println("Result: " + result);
     }
 
 }
