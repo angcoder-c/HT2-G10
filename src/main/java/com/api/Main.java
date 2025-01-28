@@ -41,11 +41,15 @@ public class Main {
         Postfix<Double> tempStack = new Postfix<>();
         while (!postfix.empty()) {
             String token = postfix.pop();
+            System.out.println("Evaluating token: " + token); // Debugging line
             if (isNumeric(token)) {
                 tempStack.push(Double.parseDouble(token));
             } else {
-                double b = tempStack.pop();
-                double a = tempStack.pop();
+                Double b = tempStack.pop();
+                Double a = tempStack.pop();
+                if (a == null || b == null) {
+                    throw new IllegalArgumentException("Invalid postfix expression");
+                }
                 switch (token) {
                     case "+":
                         tempStack.push(a + b);
@@ -62,8 +66,13 @@ public class Main {
                     case "%":
                         tempStack.push(a % b);
                         break;
+                    default:
+                        throw new IllegalArgumentException("Unknown operator: " + token);
                 }
             }
+        }
+        if (tempStack.size() != 1) {
+            throw new IllegalArgumentException("Invalid postfix expression");
         }
         return tempStack.pop();
     }
@@ -77,6 +86,45 @@ public class Main {
         }
     }
 
+    public static double evaluatePostfix(String[] tokens) {
+        Postfix<Double> tempStack = new Postfix<>();
+        for (String token : tokens) {
+            System.out.println("Evaluating token: " + token); // Debugging line
+            if (isNumeric(token)) {
+                tempStack.push(Double.parseDouble(token));
+            } else {
+                Double b = tempStack.pop();
+                Double a = tempStack.pop();
+                if (a == null || b == null) {
+                    throw new IllegalArgumentException("Invalid postfix expression");
+                }
+                switch (token) {
+                    case "+":
+                        tempStack.push(a + b);
+                        break;
+                    case "-":
+                        tempStack.push(a - b);
+                        break;
+                    case "*":
+                        tempStack.push(a * b);
+                        break;
+                    case "/":
+                        tempStack.push(a / b);
+                        break;
+                    case "%":
+                        tempStack.push(a % b);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unknown operator: " + token);
+                }
+            }
+        }
+        if (tempStack.size() != 1) {
+            throw new IllegalArgumentException("Invalid postfix expression");
+        }
+        return tempStack.pop();
+    }
+
     public static void main(String[] args) {
         String filePath = FilePath(args);
         if (filePath == null) {
@@ -84,29 +132,26 @@ public class Main {
             return;
         }
 
+        System.out.println("Reading file: " + filePath);
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             int operationNumber = 1;
 
             while ((line = br.readLine()) != null) {
-                Postfix<String> postfix = new Postfix<>();
+                System.out.println("Processing line: " + line);
                 String[] tokens = line.split("\\s+");
 
-                for (String token : tokens) {
-                    if (isNumeric(token)) {
-                        addNumber(postfix, token);
-                    } else {
-                        addOperator(postfix, token);
-                    }
+                try {
+                    double result = evaluatePostfix(tokens);
+                    System.out.println("Operation " + operationNumber + ": " + result);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Operation " + operationNumber + " is invalid: " + e.getMessage());
                 }
-
-                double result = evaluatePostfix(postfix);
-                System.out.println("Operation " + operationNumber + ": " + result);
                 operationNumber++;
             }
         } catch (IOException e) {
-            System.out.println("Error reading file.");
+            System.out.println("Error reading file: " + e.getMessage());
         }
     }
-
 }
