@@ -2,10 +2,10 @@ package com.api;
 
 import java.util.Vector;
 
-public class Postfix<E> implements Stack<E> {
+public class PostfixVector<E> implements Stack<E> {
     private Vector<E> stack;
 
-    public Postfix() {
+    public PostfixVector() {
         stack = new Vector<>();
     }
 
