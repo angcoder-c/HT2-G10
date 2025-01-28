@@ -6,7 +6,7 @@
 
 ### Ejecutar
 
-`java -cp out com.api.Main`
+`java -cp out com.api.Main -f <file.txt>`
 
 ### Test
 

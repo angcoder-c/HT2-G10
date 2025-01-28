@@ -29,16 +29,16 @@ public class Main {
         return line.toString();
     }
 
-    public static void addNumber(Postfix<String> postfix, String number) {
+    public static void addNumber(PostfixVector<String> postfix, String number) {
         postfix.push(number);
     }
 
-    public static void addOperator(Postfix<String> postfix, String operator) {
+    public static void addOperator(PostfixVector<String> postfix, String operator) {
         postfix.push(operator);
     }
 
-    public static double evaluatePostfix(Postfix<String> postfix) {
-        Postfix<Double> tempStack = new Postfix<>();
+    public static double evaluatePostfix(PostfixVector<String> postfix) {
+        PostfixVector<Double> tempStack = new PostfixVector<>();
         while (!postfix.empty()) {
             String token = postfix.pop();
             System.out.println("Evaluating token: " + token); // Debugging line
@@ -87,7 +87,7 @@ public class Main {
     }
 
     public static double evaluatePostfix(String[] tokens) {
-        Postfix<Double> tempStack = new Postfix<>();
+        PostfixVector<Double> tempStack = new PostfixVector<>();
         for (String token : tokens) {
             System.out.println("Evaluating token: " + token); // Debugging line
             if (isNumeric(token)) {
