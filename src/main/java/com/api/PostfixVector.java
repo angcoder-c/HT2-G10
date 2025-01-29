@@ -1,3 +1,9 @@
+/**
+ * Hoja de trabajo 2
+ * Algoritmos y estructuras de datos
+ * Fecha: 27 / 01 / 2025
+ * Grupo 10
+ */
 package com.api;
 
 import java.util.Vector;
