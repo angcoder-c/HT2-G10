@@ -2,7 +2,7 @@
 
 ## Diagrama UML de clases
 
-![image](https://github.com/user-attachments/assets/dffab8d6-0e7c-49a5-90bd-ed1e36d16973)
+![image](https://github.com/user-attachments/assets/6cb4ebe2-32ff-4708-9726-f84570c956e5)
 
 
 ### Compilación
