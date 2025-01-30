@@ -112,6 +112,9 @@ public class Main {
                         stack.push(a * b);
                         break;
                     case "/":
+                        if (b == 0) {
+                            throw new ArithmeticException("Division by zero is not allowed");
+                        }
                         stack.push(a / b);
                         break;
                     case "%":
@@ -120,6 +123,7 @@ public class Main {
                     default:
                         throw new IllegalArgumentException("Unknown operator: " + token);
                 }
+                
             }
         }
 
