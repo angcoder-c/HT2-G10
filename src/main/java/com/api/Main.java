@@ -174,7 +174,7 @@ public class Main {
             try {
                 double result = evaluatePostfix(tokens);
                 System.out.println("Linea " + operationNumber + ": " + result);
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 System.out.println("ERROR: linea " + operationNumber + " es invalida: " + e.getMessage());
             }
             operationNumber++;
